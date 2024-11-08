@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda de Tarefas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Agenda de Tarefas</h1>
+
+    <form action="/index" method="post">
+        <div class="container">
+            <input type="text" name="titulo" placeholder="tarefa"><br>
+            <input type="text" name="descricao" placeholder="descrição"><br>
+            <input type="date" name="data" placeholder="data"><br>
+            <button type="submit">Adicionar tarefa</button>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul>
+                        {% for category, message in messages %}
+                            <li class="flash-{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+        </div>
+    </form>
+
+    <h2>Tarefas:</h2>
+    <ul>
+        {% for tarefa in tarefas %}
+            <li>
+                {{ tarefa.titulo }}<br>
+                {{ tarefa.descricao }}<br>
+                Vencimento: {{ tarefa.data }}
+            </li>
+        {% else %}
+            <li>Não há tarefas cadastradas.</li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('controllerI.logout') }}">Deslogar e Apagar Tarefas</a>
+</body>
+</html>
